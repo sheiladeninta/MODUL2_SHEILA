@@ -1,16 +1,23 @@
 <?php
 include('connect.php');
+
 // ==================1==================
 // If statement untuk menyimpan variabel $id dari GET request
-if (isset($_GET['id'])){
+if (isset($_GET['id'])) {
     $id = $_GET['id'];
+
     // ==================2==================
     // Definisikan $query untuk mengambil data buku berdasarkan id
-    $data = mysqli_query($conn,$query);
-    $buku = mysqli_fetch_assoc($data);
+    $query = "SELECT * FROM tb_buku WHERE id = '$id'";
+    $data = mysqli_query($conn, $query);
+
+    if ($data) {
+        $buku = mysqli_fetch_assoc($data);
+    } else {
+        echo "<script>alert('Data tidak ditemukan'); window.location='katalog_buku.php';</script>";
+        exit();
+    }
 }
-
-
 ?>
 
 <!DOCTYPE html>
@@ -24,24 +31,24 @@ if (isset($_GET['id'])){
     <link href="style.css" rel="stylesheet">
 </head>
 <body>
-    <?php include('navbar.php');?>
+    <?php include('navbar.php'); ?>
     <center>
         <div class="container">
             <h1>Ubah Detail Buku</h1>
             <div class="col-md-4 p-3">
                 <div class="card">
                     <div class="card-body">
-                        <form action="update.php?id=<?=$id?>" method="POST" enctype="multipart/form-data">
+                        <form action="update.php?id=<?= $id ?>" method="POST" enctype="multipart/form-data">
                             <div class="form-floating mb-3">
-                                <input type="string" class="form-control" name="judul" id="judul" value="<?=$buku['judul']?>" required>
+                                <input type="text" class="form-control" name="judul" id="judul" value="<?= htmlspecialchars($buku['judul']) ?>" required>
                                 <label for="judul">Judul</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="string" class="form-control" name="penulis" id="penulis" value="<?=$buku['penulis']?>">
+                                <input type="text" class="form-control" name="penulis" id="penulis" value="<?= htmlspecialchars($buku['penulis']) ?>" required>
                                 <label for="penulis">Penulis</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="string" class="form-control" name="tahun_terbit" id="tahun_terbit" value="<?=$buku['tahun_terbit']?>" required>
+                                <input type="text" class="form-control" name="tahun_terbit" id="tahun_terbit" value="<?= htmlspecialchars($buku['tahun_terbit']) ?>" required>
                                 <label for="tahun_terbit">Tahun Terbit</label>
                             </div>
                             <button type="submit" name="update" id="update" class="btn btn-primary mb-3 mt-3 w-100">Ubah</button>
@@ -51,6 +58,5 @@ if (isset($_GET['id'])){
             </div>
         </div>
     </center>
-
 </body>
 </html>

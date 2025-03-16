@@ -38,23 +38,25 @@ while ($row = mysqli_fetch_assoc($result)) {
             <tbody>
                 <?php if (count($bukus) == 0) : ?>
                     <tr>
-                        <th colspan="7" class="text-center">TIDAK ADA DATA DALAM KATALOG</th>
+                        <th colspan="5" class="text-center">TIDAK ADA DATA DALAM KATALOG</th>
                     </tr>
                 <?php endif;?>
-                <?php foreach ($bukus as $buku) : ?>
+                <?php foreach ($bukus as $index => $buku) : ?>
                     <tr>
                         <!-- ==================2================== -->
                         <!-- Buatlah kolom untuk masing-masing variabel pada $buku -->
+                        <td><?= $index + 1 ?></td>
+                        <td><?= htmlspecialchars($buku['judul']) ?></td>
+                        <td><?= htmlspecialchars($buku['penulis']) ?></td>
+                        <td><?= htmlspecialchars($buku['tahun_terbit']) ?></td>
                         <td>
-                            <a href="edit_buku.php?id=<?=$buku['id']?>" class="btn btn-primary">Edit</a>
-                            <a href="delete.php?id=<?=$buku['id']?>" class="btn btn-danger" >Delete</a>
+                            <a href="edit_buku.php?id=<?= $buku['id'] ?>" class="btn btn-primary">Edit</a>
+                            <a href="delete.php?id=<?= $buku['id'] ?>" class="btn btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus buku ini?')">Delete</a>
                         </td>
                     </tr>
                 <?php endforeach?>
             </tbody>
         </table>
     </div>
-
 </body>
 </html>
-
